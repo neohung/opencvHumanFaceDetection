@@ -10,6 +10,6 @@ all:
 run:
 	main.exe
 clean:
-	rm HeadTracker.o
-	rm main.o
-	rm main.exe
+	del HeadTracker.o
+	del main.o
+	del main.exe

@@ -53,8 +53,13 @@ int main(){
     {
         //把取得的影像放置到矩陣中
         cap >> frame;
-		//
-		cv::Mat roi = tracker.DetectROI(frame);
+		//ROI
+		std::vector<cv::Rect> roi_rect = tracker.DetectROI(frame,0.5);
+		for( size_t i = 0; i < roi_rect.size(); i++ )
+		{
+			ellipse( frame, Point(roi_rect[i].x,roi_rect[i].y), Size(roi_rect[i].width,roi_rect[i].height), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
+		}
+		//cv::rectangle(frame, cv::Point(roi_rect.x, roi_rect.y), cv::Point(roi_rect.x + roi_rect.width, roi_rect.y + roi_rect.height), CV_RGB(255, 0, 0), 2);
 		//顯示字串
 		char temp[32];
 		sprintf(temp,"(%d,%d)-(%d,%d)", pre_mouse_pt.x,pre_mouse_pt.y,cur_mouse_pt.x,cur_mouse_pt.y );
@@ -62,7 +67,7 @@ int main(){
 		//畫方框
 		cv::rectangle(frame,pre_mouse_pt,cur_mouse_pt,cv::Scalar(0,255,0,0),1,8,0);
         //顯示frame到camera名稱的視窗
-        cv::imshow(WINNAME, roi);
+        cv::imshow(WINNAME, frame);
 	    if(cv::waitKey(30) >= 0) break;
     }
     //std::system("PAUSE");

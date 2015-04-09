@@ -18,7 +18,8 @@ class HeadTracker
 public:
 	HeadTracker(std::string face_cascade_name,std::string eyes_cascade_name);
 	~HeadTracker();
-	cv::Mat DetectROI(cv::Mat src_img);
+	cv::Rect DetectRectROI(cv::Mat src_img, float scale);
+	std::vector<cv::Rect> DetectROI(cv::Mat src_img, float scale);
 	CascadeClassifier* face_cascade;
 	CascadeClassifier* eyes_cascade;
 private:
