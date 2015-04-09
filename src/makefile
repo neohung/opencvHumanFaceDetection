@@ -1,12 +1,13 @@
-ifdef SystemRoot
-   RM = del /Q
-   FixPath = $(subst /,\,$1)
+ifeq ($(shell uname), Linux)
+	RM = rm -f
+	FixPath = $1
 else
-   ifeq ($(shell uname), Linux)
-      RM = rm -f
-      FixPath = $1
-   endif
+	ifdef SystemRoot
+		RM = del /Q
+		FixPath = $(subst /,\,$1)
+	endif
 endif
+
 
 INCS=-I..\opencv\include -I..\gtk\include\gtk-3.0 -I..\gtk\include\glib-2.0 -I..\gtk\lib\glib-2.0\include -I..\gtk\include\gdk-pixbuf-2.0 -I..\gtk\include\pango-1.0 -I..\gtk\include\cairo -I..\gtk\include\atk-1.0
 LIBS=-L..\opencv\lib -L..\gtk\lib -lopencv_highgui2410 -lopencv_core2410 -lopencv_imgproc2410 -lopencv_objdetect2410 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lpango-1.0 -lgtk-3 -lglib-2.0 -lgdk-3 -lgobject-2.0
