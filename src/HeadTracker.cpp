@@ -49,7 +49,9 @@ std::vector<cv::Rect> HeadTracker::DetectROI(cv::Mat src_img, float scale)
 		Point face_center( (faces[i].x + faces[i].width*0.5)/scale, (faces[i].y + faces[i].height*0.5)/scale );
 		Size face_center_size = Size( faces[i].width*0.5/scale, faces[i].height*0.5/scale);
 		//ellipse( src_img, face_center, face_center_size, 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
-		result.push_back(cv::Rect(face_center.x,face_center.y,face_center_size.width,face_center_size.height));
+		//result.push_back(cv::Rect(face_center.x,face_center.y,face_center_size.width,face_center_size.height));
+		result.push_back(cv::Rect(faces[i].x/scale,faces[i].y/scale,faces[i].width/scale,faces[i].height/scale));
+		
 		Mat faceROI = eq_img(faces[i]);
 		std::vector<cv::Rect> eyes;
 		this->eyes_cascade->detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30*scale, 30*scale) );
@@ -62,7 +64,8 @@ std::vector<cv::Rect> HeadTracker::DetectROI(cv::Mat src_img, float scale)
 			Point eye_center( (faces[i].x + eyes[j].x + eyes[j].width*0.5)/scale, (faces[i].y + eyes[j].y + eyes[j].height*0.5)/scale );
 			int eye_radius = cvRound( ((eyes[j].width + eyes[j].height)*0.25)/scale );
 			//circle( src_img, eye_center, eye_radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
-			result.push_back(cv::Rect(eye_center.x,eye_center.y,eye_radius,eye_radius));	
+			//result.push_back(cv::Rect(eye_center.x,eye_center.y,eye_radius,eye_radius));
+			result.push_back(cv::Rect((faces[i].x + eyes[j].x)/scale,(faces[i].y + eyes[j].y)/scale,eye_radius*2,eye_radius*2));			
 		}
 	}
 	return result;
